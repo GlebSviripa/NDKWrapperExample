@@ -1,0 +1,56 @@
+package com.simplexsolutionsinc.coresignkernelwrapper.annotations;
+
+import com.simplexsolutionsinc.coresignkernelwrapper.CSResult;
+
+public class CSAnnotationStore {
+
+	long ptr;
+	
+	public CSAnnotationStore(long _ptr) 
+	{
+		ptr = _ptr;
+	}
+	
+	public CSAnnotationStore()
+	{
+		ptr = getPtrJNI();
+	}
+
+	public long getPtr()
+	{
+		return ptr;
+	}
+
+	public native long getPtrJNI();
+
+	public native void destroy();
+
+	@Override
+	protected void finalize() throws Throwable
+	{
+
+		super.finalize();
+		destroy();
+	}
+	
+	public native boolean canUndo();
+	
+	public native boolean canRedo();
+	
+	public native CSAnnotationID[] getAnnotationIDsForPage(int page, CSResult result);
+	
+	public native CSAnnotationID[] getPlaceholderIDsForUser(long userID, boolean includeAnonymousUser);
+
+	public native int getPageForAnnotation(CSAnnotationID ID, CSResult result);
+
+	public native CSAnnotation getAnnotation(CSAnnotationID id, CSResult result);
+	
+	public native CSAnnotationID createAnnotationOnPage(int annotationType, int pageNumber, CSResult result);
+	
+	public native void removeAnnotation(CSAnnotationID id, CSResult result);
+	
+	public native void undo(CSResult result);
+	
+	public native void redo(CSResult result);
+
+}

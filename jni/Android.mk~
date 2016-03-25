@@ -1,0 +1,149 @@
+LOCAL_PATH := $(call my-dir)
+WRAPPER_SRC := /home/gleb/workspace/simplex-common-android/CoreSignMain/CoreSignKernelWrapper/jni
+include $(CLEAR_VARS)
+LIB_PATH := /home/gleb/workspace/CoreSignKernel_Libs/libs
+JNI_DIR := $(LOCAL_PATH)
+include $(CLEAR_VARS)
+OPEN_SSL := $(LIB_PATH)/openssl/lib/$(TARGET_ARCH_ABI)
+LOCAL_MODULE := libssl
+LOCAL_SRC_FILES := $(OPEN_SSL)/libssl.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+PROTOBUF := $(LIB_PATH)/protobuf/lib/$(TARGET_ARCH_ABI)
+LOCAL_MODULE := libprotobuf
+LOCAL_SRC_FILES := $(PROTOBUF)/libprotobuf.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+CURL := $(LIB_PATH)/c-url/lib/$(TARGET_ARCH_ABI)
+LOCAL_MODULE := libcurl
+LOCAL_SRC_FILES := $(CURL)/libcurl.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+CRYSTAX := $(LIB_PATH)/crystax/libs/$(TARGET_ARCH_ABI)
+LOCAL_MODULE := libcrystax
+LOCAL_SRC_FILES := $(CRYSTAX)/libcrystax.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+KERNEL := $(LIB_PATH)/$(TARGET_ARCH_ABI)
+LOCAL_MODULE := libCoreSignKernel
+LOCAL_SRC_FILES := $(KERNEL)/libCoreSignKernel.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+
+
+
+## sqlcipher prebuild start
+
+include $(CLEAR_VARS)
+SQLCIPHER_PRE_BUILD_ARM := $(LIB_PATH)/sqlcipher/prebuild/armeabi
+SQLCIPHER_PRE_BUILD_ARM_V7A := $(LIB_PATH)/sqlcipher/prebuild/armeabi-v7a
+LOCAL_MODULE := libdatabase_sqlcipher
+LOCAL_SRC_FILES := $(SQLCIPHER_PRE_BUILD_ARM)/libdatabase_sqlcipher.so
+ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
+    LOCAL_SRC_FILES := $(SQLCIPHER_PRE_BUILD_ARM_V7A)/libdatabase_sqlcipher.so
+endif
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+SQLCIPHER_PRE_BUILD_ARM := $(LIB_PATH)/sqlcipher/prebuild/armeabi
+SQLCIPHER_PRE_BUILD_ARM_V7A := $(LIB_PATH)/sqlcipher/prebuild/armeabi-v7a
+LOCAL_MODULE := libsqlcipher_android
+LOCAL_SRC_FILES := $(SQLCIPHER_PRE_BUILD_ARM)/libsqlcipher_android.so
+ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
+    LOCAL_SRC_FILES := $(SQLCIPHER_PRE_BUILD_ARM_V7A)/libsqlcipher_android.so
+endif
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+SQLCIPHER_PRE_BUILD_ARM := $(LIB_PATH)/sqlcipher/prebuild/armeabi
+SQLCIPHER_PRE_BUILD_ARM_V7A := $(LIB_PATH)/sqlcipher/prebuild/armeabi-v7a
+LOCAL_MODULE := libstlport_shared
+LOCAL_SRC_FILES := $(SQLCIPHER_PRE_BUILD_ARM)/libstlport_shared.so
+ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
+    LOCAL_SRC_FILES := $(SQLCIPHER_PRE_BUILD_ARM_V7A)/libstlport_shared.so
+endif
+include $(PREBUILT_SHARED_LIBRARY)
+
+## sqlcipher prebuild end
+include $(CLEAR_VARS)
+
+LOCAL_C_INCLUDES := /home/gleb/workspace/CoreSign-Kernel/include \
+                    /Users/prog/Downloads/CSKernel/CoreSign-Kernel/include/Session \
+                    /Users/prog/Downloads/CSKernel/CoreSign-Kernel/include/Documents
+
+LOCAL_MODULE    := CoreSignKernelWrapper
+LOCAL_SRC_FILES += JavaCache.h
+LOCAL_SRC_FILES += JavaCache.cpp
+LOCAL_SRC_FILES += /home/gleb/workspace/CoreSign-Kernel/include/CoreSignKernel.hpp
+
+##LOCAL_SRC_FILES += session/*.cpp
+##LOCAL_SRC_FILES += session/*.h
+
+##SESSION
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSSession.cpp
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSSession.h
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSSessionConfig.cpp
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSSessionConfig.h
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSSessionCredentials.cpp
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSSessionCredentials.h
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSServer.cpp
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSServer.h
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSUserKeys.cpp
+LOCAL_SRC_FILES += session/com_simplexsolutionsinc_coresignkernelwrapper_session_CSUserKeys.h
+
+##LEGALS_STORAGE
+LOCAL_SRC_FILES += com_simplexsolutionsinc_coresignkernelwrapper_CSLegalsStorage.h
+LOCAL_SRC_FILES += com_simplexsolutionsinc_coresignkernelwrapper_CSLegalsStorage.cpp
+
+##DOCUMENTS
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSBySignerDocumentFilter.h
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSBySignerDocumentFilter.cpp
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocument.h
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocument.cpp
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocumentContent.h
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocumentContent.cpp
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocumentManager.h
+##LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocumentManager.cpp
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocumentParticipant.h
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocumentParticipant.cpp
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocumentParticipantManager.h
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSDocumentParticipantManager.cpp
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSPDF.h
+LOCAL_SRC_FILES += documents/com_simplexsolutionsinc_coresignkernelwrapper_documents_CSPDF.cpp
+
+##ANNOTATIONS
+LOCAL_SRC_FILES += annotations/com_simplexsolutionsinc_coresignkernelwrapper_annotations_CSAnnotation.h
+LOCAL_SRC_FILES += annotations/com_simplexsolutionsinc_coresignkernelwrapper_annotations_CSAnnotation.cpp
+LOCAL_SRC_FILES += annotations/com_simplexsolutionsinc_coresignkernelwrapper_annotations_CSAnnotationID.h
+LOCAL_SRC_FILES += annotations/com_simplexsolutionsinc_coresignkernelwrapper_annotations_CSAnnotationID.cpp
+
+##templates
+LOCAL_SRC_FILES += templates/com_simplexsolutionsinc_coresignkernelwrapper_templates_CSTemplate.cpp
+LOCAL_SRC_FILES += templates/com_simplexsolutionsinc_coresignkernelwrapper_templates_CSTemplateAuthor.cpp
+LOCAL_SRC_FILES += templates/com_simplexsolutionsinc_coresignkernelwrapper_templates_CSTemplateFilter.cpp
+LOCAL_SRC_FILES += templates/com_simplexsolutionsinc_coresignkernelwrapper_templates_CSByAuthorTemplateFilter.cpp
+LOCAL_SRC_FILES += templates/com_simplexsolutionsinc_coresignkernelwrapper_templates_CSStringQueryTemplateFilter.cpp
+LOCAL_SRC_FILES += templates/com_simplexsolutionsinc_coresignkernelwrapper_templates_CSCompositeTemplateFilter.cpp
+LOCAL_SRC_FILES += templates/com_simplexsolutionsinc_coresignkernelwrapper_templates_CSTemplateManager.cpp
+LOCAL_SRC_FILES += providers/com_simplexsolutionsinc_coresignkernelwrapper_providers_CSSessionCredentialsProviderAdapter.cpp
+LOCAL_SRC_FILES += providers/com_simplexsolutionsinc_coresignkernelwrapper_providers_CSDocumentPreviewAdapter.cpp
+
+LOCAL_LDFLAGS += -llog
+LOCAL_CFLAGS :=-D__GXX_EXPERIMENTAL_CXX0X__
+LOCAL_STATIC_LIBRARIES := 	libssl \
+							libcrypto \
+                            libprotobuf \
+							libcurl \
+							libcrystax     
+							
+LOCAL_SHARED_LIBRARIES := libdatabase_sqlcipher \
+                          libsqlcipher_android \
+			    		  libstlport_shared \
+			    		  libCoreSignKernel
+			      
+
+include $(BUILD_SHARED_LIBRARY)
